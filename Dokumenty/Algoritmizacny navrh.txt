@@ -1,0 +1,72 @@
+Funkcia "vypisTerminu":
+    1. Start
+    2. Je pozicia subora na zaciatku?
+        TRUE: Pokracujem dalej
+        FALSE: Skocim na zaciatok subora
+    3. Vytvorim si docastnu premennu "najmensiCas"
+    4. Ziskam z argumentu "subor", "typTerminu" na vypis a... 
+       ..."zoznamTerminov" z vypisanych terminov co je zoznam...
+       vypisanych terminov
+    5. Cyklicky prejdem cely subor
+        5.1 Cyklicky prejdem cely subor
+            5.1.1 Je aktualny termin rovny "typTerminu"?
+                TRUE: Nachadza sa na zozname vypisanych terminov
+                    TRUE: Pokracujem dalej
+                    FALSE:
+                        Je cas aktualneho terminu mensi ako "najmensiCas"?
+                            TRUE: Nastavim "najmensiCas" na aktualny cas
+                            FALSE: Pokracujem dalej
+                FALSE: Pokracujem dalej
+        5.2 Skocim na zaciatok subora
+        5.3 Je aktualny termin rovny "typTerminu"
+            TRUE: Nachadza sa na zozname vypisanych terminov
+                TRUE: Pokracujem dalej
+                FALSE:
+                    Je cas aktualneho terminu rovny "najmensiCas"?
+                        TRUE:
+                            Vypisem termin
+                            Zapisem ho do zoznamu
+                            Skocim na zaciatok subora
+                            Vratim 0
+                        FALSE: Pokracujem dalej
+            FALSE: Pokracujem na dalsiu iteraciu
+    6. Skocim na zaciatok subora
+    7. Vratim -1
+    8. Koniec
+
+Funckia "V":
+    1. Start
+    2. Je subor otvoreny?
+        TRUE: Pokracujem dalej
+        FALSE: Otvorit subor (osetrit otvaranie subora)
+    3. Su vytvorene dynamicke polia? (Funkcia N)
+        TRUE: Vypis zaznamov z pola
+        FALSE: Vypis zaznamov zo subora
+    4. Koniec (subor nezatvaram ale pracujem s nim dalej)
+
+Funkcia "O":
+    1. Start
+    2. Je otvoreny subor?
+        TRUE: Pokracujem dalej
+        FALSE: Vypisem chybu
+    3. Vytvorim si ukazovatel "datum", "riadok", "typ" a "zoznamTerminov"
+    4. Nacitam datum od pouzivatela
+    5. Je datum vo formate "rrrrmmdd"?
+        TRUE: Pokracujem dalej
+        FALSE: Vypytam si datum znovu
+    6. Cyklicky prejdem subor
+        6.1 Nahram si aktualny riadok subora do ukazovatela "riadok"
+        6.2 Zavolam funkciu "vypisTerminu"
+        6.3 Je navratova hodnota funkcie "vypisTerminu" -1?
+            TRUE: 
+                Prepinac "typ":
+                    "UD": Nastavim "typ" na "UP"
+                    "UP": Nastavim "typ" na "PD"
+                    "PD": Nastavim "typ" na "PP"
+                    "PP": Nastavim "typ" na "UD"
+            FALSE: Pokracujem dalej
+    7. Koniec
+
+    Funkcia "N":
+        1. Start
+        2. 
