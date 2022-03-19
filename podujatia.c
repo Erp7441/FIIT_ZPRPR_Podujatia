@@ -132,6 +132,13 @@ int pocetZaznamov(FILE* subor){
     return dlzka; 
 }
 
+void vypisPoZnakoch(char* retazec){
+    for(size_t i = 0; i < strlen(retazec); i++){
+        if(retazec[i] == '\n' || retazec[i] == '#'){ break; }
+        printf("%c", retazec[i]);
+    }
+}
+
 char** alokovat2D(int pocetRiadkov, int velkostRiadka){
     char** ptr = (char**) malloc(pocetRiadkov * sizeof(char*));
     for(int i = 0; i < pocetRiadkov; i++){
@@ -245,33 +252,6 @@ void podpis(char const* zadanie, char const* meno, char const* aisID){
 
 void v(FILE** subor, size_t* velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum){
 
-//*------------------------------------------------------ Postup ------------------------------------------------------
-    
-    // TODO prerobit alebo removnut
-
-    /*
-        1. Štart
-        2. Zadeklarujem si ukazovatele "", "velkost", "subor" a pole "riadok"
-        3. Inicializujem premenné a ukazovatele
-            "subor" -> zatiaľ na prázdnu hodnotu
-            "riadok" -> zatiaľ na prázdnu hodnotu
-            "tabulka" -> zatiaľ na prázdnu hodnotu
-            "velkosť" -> 0
-        4. Alokujem si dynamické pole "tabulka"
-        5. Otvorím si súbor pomocou ukazovateľa "subor"
-        6. Čítam súbor riadok po riadku pričom...
-            6.1. Prečítam riadok
-            6.2 Mám dosť údajov v riadku?
-                TRUE: Pokračujem ďalej
-                FALSE: Skončím program
-            6.3 Zväčším pomocou premennej "velkost" dynamické pole o jedného jazdca
-            6.4. Rozseknem riadok podla bodkočiarky
-            6.5. Mám správne zadefinované údaje v riadku?
-                TRUE: Zapíšem údaje postupne do poľa "tabulka"
-                FALSE: Skončím program
-        7. Stop
-    */
-
 //*----------------------------------------------------- Premenné -----------------------------------------------------
 
     char riadok[VELKOST_BUFFERA];
@@ -348,14 +328,8 @@ void o(FILE* subor, size_t velkost, char** nazvyPodujati, char** menaAutorov, ch
     
 //*----------------------------------------------------- Premenné -----------------------------------------------------
     
-    int vstupDatum = 0, indexCasy = 0, zaznam = 0, pocetPodujati = pocetZaznamov(subor);
-    int *casy = (int*)calloc(pocetPodujati, sizeof(int));
-    char riadok[VELKOST_BUFFERA];
+    int vstupDatum = 0;
     char zdroj = 'p';
-    
-    
-    char p[VELKOST_BUFFERA][VELKOST_BUFFERA];
-    char u[VELKOST_BUFFERA][VELKOST_BUFFERA];
 
 //*-------------------------------------------------- Inicializácia ---------------------------------------------------
 
@@ -377,54 +351,74 @@ void o(FILE* subor, size_t velkost, char** nazvyPodujati, char** menaAutorov, ch
 //*------------------------------------------------ Čítanie zo súboru -------------------------------------------------
 
     if(zdroj == 'f'){
+
+        int index = 0;
+        char riadok[VELKOST_BUFFERA];
+        int velkostPoli = pocetZaznamov(subor);
+
+        char** nazvy = alokovat2D(velkostPoli, 150);
+        char** mena =  alokovat2D(velkostPoli, 100);
+        char** typy = alokovat2D(velkostPoli, 4);
+        int* casy = (int*)calloc(velkostPoli,sizeof(int));
+        int* datumy = (int*)calloc(velkostPoli,sizeof(int));
+
         for(size_t i = 0; fgets(riadok, VELKOST_BUFFERA, subor); i++){
             switch (i){
+                case 0:
+                    strcpy(nazvy[index], riadok);
+                    break;
+                case 1:
+                    strcpy(mena[index], riadok);
+                    break;
+                case 2:
+                    strcpy(typy[index], riadok);
+                    break;
                 case 3:
-                    if(atoi(riadok) == vstupDatum){
-                        casy[indexCasy] = zaznam;
-                        indexCasy++;
-                    }
+                    casy[index] = atoi(riadok);
+                    break;
+                case 4:
+                    datumy[index] = atoi(riadok);
                     break;
                 case 5:
                     i = -1;
-                    zaznam++;
+                    index++;
                     break;
                 default:
                     break;
             }
         }
-
-        fseek(subor, 0, SEEK_SET);
-        
-        int aktualnyZaznam = 0;
-        while(fgets(riadok, VELKOST_BUFFERA, subor)){
-            if(strcmp(riadok, "\n") == 0){ aktualnyZaznam++; }
-            for (size_t j = 0; j < (size_t)pocetPodujati; j++){
-                if(aktualnyZaznam == casy[j]){
-                    printf("DEBUG: %s",riadok); // TODO dorobit
-                }
+        for(int i = 0; i < velkostPoli; i++){
+            if(datumy[i] == vstupDatum){
+                printf("%d\t", casy[i]);
+                vypisPoZnakoch(typy[i]);
+                printf("\t");
+                vypisPoZnakoch(mena[i]);
+                printf("\t%s", nazvy[i]);
             }
         }
+        dealokovat2D(nazvy, velkost);
+        dealokovat2D(mena, velkost);
+        dealokovat2D(typy, velkost);
+        free(casy);
+        free(datumy);
+        casy = NULL;
+        datumy = NULL;
+
     }
 
 //*-------------------------------------------------- Čítanie z poli --------------------------------------------------
 
     else if(zdroj == 'p'){
         for(size_t i = 0; i < velkost; i++){
-            printf("Nazov prispevku: ");
-            printf("%s", nazvyPodujati[i]);
-            printf("Mena autorov: ");
-            printf("%s", menaAutorov[i]);
-            printf("Typ prezentovania: ");
-            printf("%s", typPrezentovania[i]);
-            printf("Cas prezentovania: ");
-            printf("%d", casPrezentovania[i]);
-            printf("Datum: ");
-            printf("%d\n", datum[i]);
+            if(datum[i] == vstupDatum){
+                printf("%d\t", casPrezentovania[i]);
+                vypisPoZnakoch(typPrezentovania[i]);
+                printf("\t");
+                vypisPoZnakoch(menaAutorov[i]);
+                printf("\t%s", nazvyPodujati[i]);
+            }
         }
     }
-
-
 }
 
 void n(FILE** subor, size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typPrezentovania, int** casPrezentovania, int** datum){
@@ -446,6 +440,16 @@ void n(FILE** subor, size_t* velkost, char*** nazvyPodujati, char*** menaAutorov
 
     if(ftell(*subor) != 0){
         fseek(*subor, 0, SEEK_SET);
+    }
+
+    if(*nazvyPodujati || *menaAutorov || *typPrezentovania || *casPrezentovania || *datum){
+        dealokovat2D(*nazvyPodujati, *velkost);
+        dealokovat2D(*menaAutorov, *velkost);
+        dealokovat2D(*typPrezentovania, *velkost);
+        free(*casPrezentovania);
+        free(*datum);
+        *casPrezentovania = NULL;
+        *datum = NULL;
     }
 
     *velkost = pocetZaznamov(*subor);
@@ -508,14 +512,7 @@ void s(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPreze
         if(datum[i] == vstupDatum){
             if(strncmp(typPrezentovania[i], vstupTyp, 2) == 0) {
                 printf("%d\t", casPrezentovania[i]);
-
-                for(size_t j = 0; j < strlen(menaAutorov[i]); j++){
-                    if(menaAutorov[i][j] == '\n' || menaAutorov[i][j] == '#'){
-                        break;
-                    }
-                    printf("%c", menaAutorov[i][j]);
-                }
-                
+                vypisPoZnakoch(menaAutorov[i]);
                 printf("\t%s", nazvyPodujati[i]);
             }
         }
