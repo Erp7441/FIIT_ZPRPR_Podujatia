@@ -18,7 +18,7 @@
 
 #define VELKOST_BUFFERA 200
 
-void podpis(char const* zadanie, char const* meno, char const* aisID);
+void dealokovat2D(char** ptr, int velkost);
 void v(FILE** subor, size_t* velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum);
 void o(FILE* subor, size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum);
 void n(FILE** subor, size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typPrezentovania, int** casPrezentovania, int** datum);
@@ -26,55 +26,31 @@ void s(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPreze
 void h(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum);
 void z(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typPrezentovania, int** casPrezentovania, int** datum);
 void p(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typPrezentovania, int** casPrezentovania, int** datum);
-void dealokovat2D(char** ptr, int velkost);
-void dealokovat1D(void* ptr);
-
-//TODO Ocheckovat vsetky vstupy
 
 int main(){
 
 //*----------------------------------------------------- Premenné -----------------------------------------------------
 
-    char vyber;
-    size_t velkost = 0;
     FILE* subor = NULL;
     char** nazvyPodujati = NULL;
     char** menaAutorov = NULL;
     char** typPrezentovania = NULL;
     int* casPrezentovania = NULL;
     int* datum = NULL;
-
-//*-------------------------------------------------- Inicializácia ---------------------------------------------------
-
-    podpis("Podujatia", "Martin Szabo", "116304");
+    char vyber;
+    size_t velkost = 0;
 
 //*------------------------------------------------------- Menu -------------------------------------------------------
 
     do{
 
         //*----------------------------------------------- Inicializácia ----------------------------------------------
-        
-        printf("\n\n-------------------------------------");
-        printf("\n\t\t\t\t    |");
-        printf("\nv - Vypis\t\t\t    |");
-        printf("\no - Sort\t\t\t    |");
-        printf("\nn - Nacitaj\t\t\t    |");
-        printf("\ns - Zobraz\t\t\t    |");
-        printf("\nh - Histogram\t\t\t    |");
-        printf("\nz - Zmazat\t\t\t    |");
-        printf("\np - Pridat\t\t\t    |");
-        printf("\nk - Exit\t\t\t    |");
-        printf("\n\t\t\t\t    |");
-        printf("\n-------------------------------------");
-        
-        printf("\nVolba: ");
+                
         scanf(" %c", &vyber);
         getchar();
 
         //*---------------------------------------------- Výber možnosti ----------------------------------------------
         
-        printf("\n--------------------------------------------------------------------------\n\n");
-
         switch (vyber){
             case 'v':
                 v(&subor, &velkost, nazvyPodujati, menaAutorov, typPrezentovania, casPrezentovania, datum);
@@ -113,10 +89,15 @@ int main(){
                 printf("Chyba: Zly vyber");
                 break;
         }
-        printf("\n\n--------------------------------------------------------------------------");
-
     } while (vyber != 'x');
     return 0;
+}
+
+void vypisPoZnakoch(char* retazec){
+    for(size_t i = 0; i < strlen(retazec); i++){
+        if(retazec[i] == '\n' || retazec[i] == '#'){ break; }
+        printf("%c", retazec[i]);
+    }
 }
 
 int pocetZaznamov(FILE* subor){
@@ -130,13 +111,6 @@ int pocetZaznamov(FILE* subor){
     dlzka++;
     fseek(subor, 0, SEEK_SET);
     return dlzka; 
-}
-
-void vypisPoZnakoch(char* retazec){
-    for(size_t i = 0; i < strlen(retazec); i++){
-        if(retazec[i] == '\n' || retazec[i] == '#'){ break; }
-        printf("%c", retazec[i]);
-    }
 }
 
 char** alokovat2D(int pocetRiadkov, int velkostRiadka){
@@ -154,100 +128,6 @@ void dealokovat2D(char** ptr, int velkost){
     }
     free(ptr);
     ptr = NULL;
-}
-
-void podpis(char const* zadanie, char const* meno, char const* aisID){
-
-//*-------------------------------------------------- Dĺžka reťazca ---------------------------------------------------
-
-    // Zistenie dĺžky reťazcov (vhodne keď nechcem použiť char*.h knižnicu)
-    size_t dlzkaZadania = 0, dlzkaMena = 0, dlzkaAisID = 0;
-    if(zadanie){
-        for (size_t i = 0; zadanie[i] != '\0'; i++){
-            dlzkaZadania++;
-        }
-    }
-    if(meno){
-        for (size_t i = 0; meno[i] != '\0'; i++){
-            dlzkaMena++;
-        }
-    }
-    if(aisID){ 
-        for (size_t i = 0; aisID[i] != '\0'; i++){
-            dlzkaAisID++;
-        }
-    }
-
-//*----------------------------------------------- Veľkosť ohraničenia ------------------------------------------------
-
-    size_t velkostOhranicenia = 50 + dlzkaZadania + dlzkaMena + dlzkaAisID;
-    if(velkostOhranicenia % 2 == 1){velkostOhranicenia++;}
-    
-    if(dlzkaZadania == 0 && dlzkaMena == 0 && dlzkaAisID == 0){
-        printf("Nezadali ste ziadne udaje");
-        return;
-    }
-
-//*--------------------------------------------------- Vrchný rám -----------------------------------------------------
-
-    for (size_t i = 0; i < velkostOhranicenia; i++){
-        printf("-");
-    }
-    printf("\n");
-    
-//*----------------------------------------------------- Zadanie ------------------------------------------------------
-
-    if(zadanie && dlzkaZadania > 0){
-        printf("|");
-        for (size_t i = 0; i < (velkostOhranicenia - dlzkaZadania - 1)/2; i++){
-            printf(" "); // Do polovičky ohraničenia vypíšeme medzery...
-        }
-        printf("%s", zadanie); // ...Potom vypíšeme zadanie...
-        if(dlzkaZadania % 2 == 1){dlzkaZadania++;}
-        for (size_t i = 0; i < (velkostOhranicenia - dlzkaZadania - 1)/2; i++){
-            printf(" "); // Následne dopíšeme zvyšné medzery...
-        }
-        // Na koniec zakončíme riadok
-        printf("|\n");
-    }
-
-//*------------------------------------------------------- Meno -------------------------------------------------------
-
-    if(meno && dlzkaMena > 0){
-        printf("|");
-        for (size_t i = 0; i < (velkostOhranicenia - dlzkaMena - 1)/2; i++){
-            printf(" ");
-        }
-        printf("%s", meno);
-        if(dlzkaMena % 2 == 1){dlzkaMena++;}
-        for (size_t i = 0; i < (velkostOhranicenia - dlzkaMena - 1)/2; i++){
-            printf(" ");
-        }
-        printf("|\n");
-    }
-
-//*------------------------------------------------------ AIS ID ------------------------------------------------------
-
-    if(aisID && dlzkaAisID > 0){
-        printf("|");
-        for (size_t i = 0; i < (velkostOhranicenia - dlzkaAisID - 1)/2; i++){
-            printf(" ");
-        }
-        printf("%s", aisID);
-        if(dlzkaAisID % 2 == 1){dlzkaAisID++;}
-        for (size_t i = 0; i < (velkostOhranicenia - dlzkaAisID - 1)/2; i++){
-            printf(" ");
-        }
-        printf("|\n");
-    }
-
-//*---------------------------------------------------- Spodný rám ---------------------------------------------------
-
-    for (size_t i = 0; i < velkostOhranicenia; i++){
-        printf("-");
-    }
-
-    return;    
 }
 
 void v(FILE** subor, size_t* velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum){
@@ -269,11 +149,10 @@ void v(FILE** subor, size_t* velkost, char** nazvyPodujati, char** menaAutorov, 
 
     if(!nazvyPodujati || !menaAutorov || !typPrezentovania || !casPrezentovania || !datum){
         zdroj = 'f';
-    }
-
-    if(ftell(*subor) != 0){
-        fseek(*subor, 0, SEEK_SET);
-    }
+        if(ftell(*subor) != 0){
+            fseek(*subor, 0, SEEK_SET);
+        }
+    }    
 
 //*------------------------------------------------ Čítanie zo súboru -------------------------------------------------
 
@@ -342,10 +221,9 @@ void o(FILE* subor, size_t velkost, char** nazvyPodujati, char** menaAutorov, ch
     
     if(!nazvyPodujati || !menaAutorov || !typPrezentovania || !casPrezentovania || !datum){
         zdroj = 'f';
-    }
-
-    if(ftell(subor) != 0){
-        fseek(subor, 0, SEEK_SET);
+        if(ftell(subor) != 0){
+            fseek(subor, 0, SEEK_SET);
+        }
     }
 
 //*------------------------------------------------ Čítanie zo súboru -------------------------------------------------
@@ -495,16 +373,16 @@ void s(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPreze
 //*----------------------------------------------------- Premenné -----------------------------------------------------
     
     int vstupDatum = 0;
-    char* vstupTyp = (char*)calloc(VELKOST_BUFFERA, sizeof(char));
+    char vstupTyp[VELKOST_BUFFERA];
 
 //*-------------------------------------------------- Inicializácia ---------------------------------------------------
-
-    scanf("%d %s", &vstupDatum, vstupTyp);
 
     if(!nazvyPodujati || !menaAutorov || !typPrezentovania || !casPrezentovania || !datum){
         printf("Polia nie su vytvorene\n");
         return;
     }
+
+    scanf("%d %s", &vstupDatum, vstupTyp);
 
 //*-------------------------------------------------- Čítanie z poli --------------------------------------------------
 
@@ -623,6 +501,8 @@ void h(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPreze
             }
         }
     }
+
+//*------------------------------------------------------ Výpis -------------------------------------------------------
 
     printf("hodiny\t\t\tUP\tUD\tPP\tPD\n");
     for(int i = 0; i < 6; i++) {
