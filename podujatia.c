@@ -269,7 +269,6 @@ void o(FILE* subor, size_t velkost, char** nazvyPodujati, char** menaAutorov, ch
     scanf("%d", &vstupDatum);
 
     if(!subor){
-        printf("Neotvoreny subor\n");
         return;
     }
     
@@ -448,7 +447,7 @@ void s(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPreze
     
 //*----------------------------------------------------- Premenné -----------------------------------------------------
     
-    int vstupDatum = 0;
+    int vstupDatum = 0, bVypis = 0;
     char vstupTyp[VELKOST_BUFFERA];
 
 //*-------------------------------------------------- Inicializácia ---------------------------------------------------
@@ -468,8 +467,13 @@ void s(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPreze
                 printf("%d\t", casPrezentovania[i]);
                 vypisPoZnakoch(menaAutorov[i]);
                 printf("\t%s", nazvyPodujati[i]);
+                bVypis = 1;
             }
         }
+    }
+
+    if(bVypis == 0){
+        printf("Pre dany vstup neexistuju zaznamy.\n");
     }
 }
 
