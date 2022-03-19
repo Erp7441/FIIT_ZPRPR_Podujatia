@@ -74,9 +74,6 @@ int main(){
                 p(&velkost, &nazvyPodujati, &menaAutorov, &typPrezentovania, &casPrezentovania, &datum);
                 break;
             case 'k':
-                if(fclose(subor) == EOF){
-                    printf("Chyba pri zatvarani suboru");
-                }
                 dealokovat2D(nazvyPodujati, velkost);
                 dealokovat2D(menaAutorov, velkost);
                 dealokovat2D(typPrezentovania, velkost);
@@ -84,9 +81,11 @@ int main(){
                 free(datum);
                 casPrezentovania = NULL;
                 datum = NULL;
+                if(fclose(subor) == EOF){
+                    return -1;
+                }
                 return 0;
             default:
-                printf("Chyba: Zly vyber");
                 break;
         }
     } while (vyber != 'x');
