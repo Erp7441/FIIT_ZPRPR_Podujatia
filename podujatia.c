@@ -382,7 +382,7 @@ void n(FILE** subor, size_t* velkost, char*** nazvyPodujati, char*** menaAutorov
                 break;
         }
     }
-    printf("Nacitane data");
+    printf("Nacitane data\n");
 }
 
 void s(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum){
