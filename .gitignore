@@ -1,0 +1,13 @@
+# Visual Studio Code Configs
+.vscode/*
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+# Cppcheck temporary files
+cppcheck-addon-ctu-file-list
+*.ctu-info
+*.dump
+tempCodeRunnerFile.c
+tempCodeRunnerFile.h
