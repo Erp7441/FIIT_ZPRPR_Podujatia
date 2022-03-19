@@ -26,6 +26,7 @@ void s(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPreze
 void h(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum);
 void z(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typPrezentovania, int** casPrezentovania, int** datum);
 void p(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typPrezentovania, int** casPrezentovania, int** datum);
+void vymenRetazce(char** destinacia, char** zdroj);
 
 int main(){
 
@@ -145,6 +146,43 @@ void dealokovat2D(char** ptr, int velkost){
     }
     free(ptr);
     ptr = NULL;
+}
+
+void vymenRetazce(char** destinacia, char** zdroj){
+
+//*----------------------------------------------------- Premenné -----------------------------------------------------
+    
+    char temp[VELKOST_BUFFERA];
+
+//*------------------------------------------------------ Výmena ------------------------------------------------------
+
+    strcpy(temp, *destinacia);
+    strcpy(*destinacia, *zdroj);
+    strcpy(*zdroj, temp);
+}
+
+void vymenInt(int* destinacia, int* zdroj){
+
+//*------------------------------------------------------ Výmena ------------------------------------------------------
+
+    int temp = *destinacia;
+    *destinacia = *zdroj;
+    *zdroj = temp;
+}
+
+void zoradPole(size_t velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typPrezentovania, int** casPrezentovania, int** datum){
+    // Klasický bubble sort podla casov
+    for (size_t i = 0; i < velkost-1; i++){ 
+        for (size_t j = 0; j < velkost-i-1; j++){
+            if ((*casPrezentovania)[i] > (*casPrezentovania)[i+1]){
+                vymenRetazce(&(*nazvyPodujati)[i], &(*nazvyPodujati)[i+1]);
+                vymenRetazce(&(*menaAutorov)[i], &(*menaAutorov)[i+1]);
+                vymenRetazce(&(*typPrezentovania)[i], &(*typPrezentovania)[i+1]);
+                vymenInt(&(*casPrezentovania)[i], &(*casPrezentovania)[i+1]);
+                vymenInt(&(*datum)[i], &(*datum)[i]);
+            }      
+        }
+    }
 }
 
 void v(FILE** subor, size_t* velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum){
@@ -282,8 +320,19 @@ void o(FILE* subor, size_t velkost, char** nazvyPodujati, char** menaAutorov, ch
                     break;
             }
         }
+        zoradPole(velkostPoli, &nazvy, &mena, &typy, &casy, &datumy);
         for(int i = 0; i < velkostPoli; i++){
-            if(datumy[i] == vstupDatum){
+            if(datumy[i] == vstupDatum && typy[i][0] == 'U'){
+                printf("%d\t", casy[i]);
+                vypisPoZnakoch(typy[i]);
+                printf("\t");
+                vypisPoZnakoch(mena[i]);
+                printf("\t%s", nazvy[i]);
+            }
+        }
+        printf("\n");
+        for(int i = 0; i < velkostPoli; i++){
+            if(datumy[i] == vstupDatum && typy[i][0] == 'P'){
                 printf("%d\t", casy[i]);
                 vypisPoZnakoch(typy[i]);
                 printf("\t");
@@ -304,8 +353,19 @@ void o(FILE* subor, size_t velkost, char** nazvyPodujati, char** menaAutorov, ch
 //*-------------------------------------------------- Čítanie z poli --------------------------------------------------
 
     else if(zdroj == 'p'){
+        zoradPole(velkost, &nazvyPodujati, &menaAutorov, &typPrezentovania, &casPrezentovania, &datum);
         for(size_t i = 0; i < velkost; i++){
-            if(datum[i] == vstupDatum){
+            if(datum[i] == vstupDatum && typPrezentovania[i][0] == 'U'){
+                printf("%d\t", casPrezentovania[i]);
+                vypisPoZnakoch(typPrezentovania[i]);
+                printf("\t");
+                vypisPoZnakoch(menaAutorov[i]);
+                printf("\t%s", nazvyPodujati[i]);
+            }
+        }
+        printf("\n");
+        for(size_t i = 0; i < velkost; i++){
+            if(datum[i] == vstupDatum && typPrezentovania[i][0] == 'P'){
                 printf("%d\t", casPrezentovania[i]);
                 vypisPoZnakoch(typPrezentovania[i]);
                 printf("\t");
