@@ -22,11 +22,14 @@ void podpis(char const* zadanie, char const* meno, char const* aisID);
 void v(FILE** subor, size_t* velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum);
 void o(FILE* subor, size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum);
 void n(FILE** subor, size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typPrezentovania, int** casPrezentovania, int** datum);
+void s(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum);
+void h(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum);
 void z(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typPrezentovania, int** casPrezentovania, int** datum);
 void p(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typPrezentovania, int** casPrezentovania, int** datum);
-void s(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum);
 void dealokovat2D(char** ptr, int velkost);
 void dealokovat1D(void* ptr);
+
+//TODO Ocheckovat vsetky vstupy
 
 int main(){
 
@@ -86,6 +89,7 @@ int main(){
                 s(velkost, nazvyPodujati, menaAutorov, typPrezentovania, casPrezentovania, datum);
                 break;
             case 'h':
+                h(velkost, nazvyPodujati, menaAutorov, typPrezentovania, casPrezentovania, datum);
                 break;
             case 'z':
                 z(&velkost, &nazvyPodujati, &menaAutorov, &typPrezentovania, &casPrezentovania, &datum);
@@ -448,7 +452,7 @@ void n(FILE** subor, size_t* velkost, char*** nazvyPodujati, char*** menaAutorov
 
     *nazvyPodujati = alokovat2D(*velkost, 150);
     *menaAutorov = alokovat2D(*velkost, 100);
-    *typPrezentovania = alokovat2D(*velkost, 2);
+    *typPrezentovania = alokovat2D(*velkost, 4);
     *casPrezentovania = (int*)calloc(*velkost, sizeof(int));
     *datum = (int*)calloc(*velkost, sizeof(int));
 
@@ -518,6 +522,140 @@ void s(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPreze
     }
 }
 
+void h(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum){
+    
+//*-------------------------------------------------- Inicializácia ---------------------------------------------------
+    
+    if(!nazvyPodujati || !menaAutorov || !typPrezentovania || !casPrezentovania || !datum){
+        printf("Polia nie su vytvorene");
+        return;
+    }
+
+//*----------------------------------------------------- Premenné -----------------------------------------------------
+
+    int* UP = (int*)calloc(6, sizeof(int));
+    int* UD = (int*)calloc(6, sizeof(int));
+    int* PP = (int*)calloc(6, sizeof(int));
+    int* PD = (int*)calloc(6, sizeof(int));
+
+//*-------------------------------------------------- Inicializácia ---------------------------------------------------
+
+    for(size_t i = 0; i < velkost; i++){ 
+        if(casPrezentovania[i] >= 800 && casPrezentovania[i] < 1000){
+            if(strncmp(typPrezentovania[i], "UP", 2) == 0) {
+                UP[0]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "UD", 2) == 0) {
+                UD[0]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "PP", 2) == 0){
+                PP[0]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "PD", 2) == 0){
+                PD[0]++; 
+            }
+        }
+        else if(casPrezentovania[i] >= 1000 && casPrezentovania[i] < 1200){
+            if(strncmp(typPrezentovania[i], "UP", 2) == 0) {
+                UP[1]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "UD", 2) == 0) {
+                UD[1]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "PP", 2) == 0){
+                PP[1]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "PD", 2) == 0){
+                PD[1]++; 
+            }
+        }
+        else if(casPrezentovania[i] >= 1200 && casPrezentovania[i] < 1400){
+            if(strncmp(typPrezentovania[i], "UP", 2) == 0) {
+                UP[2]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "UD", 2) == 0) {
+                UD[2]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "PP", 2) == 0){
+                PP[2]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "PD", 2) == 0){
+                PD[2]++; 
+            }
+        }
+        else if(casPrezentovania[i] >= 1400 && casPrezentovania[i] < 1600){
+            if(strncmp(typPrezentovania[i], "UP", 2) == 0) {
+                UP[3]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "UD", 2) == 0) {
+                UD[3]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "PP", 2) == 0){
+                PP[3]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "PD", 2) == 0){
+                PD[3]++; 
+            }
+        }
+        else if(casPrezentovania[i] >= 1600 && casPrezentovania[i] < 1800){
+            if(strncmp(typPrezentovania[i], "UP", 2) == 0) {
+                UP[4]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "UD", 2) == 0) {
+                UD[4]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "PP", 2) == 0){
+                PP[4]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "PD", 2) == 0){
+                PD[4]++; 
+            }
+        }
+        else if(casPrezentovania[i] >= 1800 && casPrezentovania[i] < 2000){
+            if(strncmp(typPrezentovania[i], "UP", 2) == 0) {
+                UP[5]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "UD", 2) == 0) {
+                UD[5]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "PP", 2) == 0){
+                PP[5]++; 
+            }
+            else if(strncmp(typPrezentovania[i], "PD", 2) == 0){
+                PD[5]++; 
+            }
+        }
+    }
+
+    printf("hodiny\t\t\tUP\tUD\tPP\tPD\n");
+    for(int i = 0; i < 6; i++) {
+        switch (i){
+            case 0:
+                printf("08:00 - 09:59 :");
+                break;
+            case 1:
+                printf("10:00 - 11:59 :");
+                break;
+            case 2:
+                printf("12:00 - 13:59 :");
+                break;
+            case 3:
+                printf("14:00 - 15:59 :");
+                break;
+            case 4:
+                printf("16:00 - 17:59 :");
+                break;
+            case 5:
+                printf("18:00 - 19:59 :");
+                break;
+            default:
+                break;
+        }
+        printf("\t\t%d\t%d\t%d\t%d\n",UP[i], UD[i], PP[i], PD[i]);
+    }
+
+}
+
 void z(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typPrezentovania, int** casPrezentovania, int** datum){
     
 //*----------------------------------------------------- Premenné -----------------------------------------------------
@@ -527,7 +665,12 @@ void z(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typP
     size_t pocetZmazanych = 0;
 
 //*-------------------------------------------------- Inicializácia ---------------------------------------------------
-    
+        
+    if(!nazvyPodujati || !menaAutorov || !typPrezentovania || !casPrezentovania || !datum){
+        printf("Polia nie su vytvorene");
+        return;
+    }
+
     fgets(vstupNazov, VELKOST_BUFFERA, stdin);
 
     while(bZacat != -1){        
@@ -572,6 +715,11 @@ void p(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typP
 
 //*-------------------------------------------------- Inicializácia ---------------------------------------------------
     
+    if(!nazvyPodujati || !menaAutorov || !typPrezentovania || !casPrezentovania || !datum){
+        printf("Polia nie su vytvorene");
+        return;
+    }
+
     fgets(vstupNazov, VELKOST_BUFFERA, stdin);
     fgets(vstupMeno, VELKOST_BUFFERA, stdin);
     fgets(vstupTyp, VELKOST_BUFFERA, stdin);
@@ -587,14 +735,15 @@ void p(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typP
 
     (*nazvyPodujati)[(*velkost)-1] = (char *) calloc(150, sizeof(char));
     (*menaAutorov)[(*velkost)-1] = (char *) calloc(100, sizeof(char));
-    (*typPrezentovania)[(*velkost)-1] = (char *) calloc(2, sizeof(char));
+    (*typPrezentovania)[(*velkost)-1] = (char *) calloc(4, sizeof(char));
+
+//*------------------------------------------------- Pridanie do poli -------------------------------------------------
 
     strncpy((*nazvyPodujati)[(*velkost)-1], vstupNazov, 150);
     strncpy((*menaAutorov)[(*velkost)-1], vstupMeno, 100);
-    strncpy((*typPrezentovania)[(*velkost)-1], vstupTyp, 3);
+    strncpy((*typPrezentovania)[(*velkost)-1], vstupTyp, 4);
     (*casPrezentovania)[(*velkost)-1] = atoi(vstupCas);
     (*datum)[(*velkost)-1] = atoi(vstupDatum);
 
     printf("Zaznam sa podarilo pridat.");
 }
-
