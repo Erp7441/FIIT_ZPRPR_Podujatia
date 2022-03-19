@@ -94,6 +94,9 @@ int main(){
 }
 
 void vypisPoZnakoch(char* retazec){
+
+//*----------------------------------------- Prechádza reťazec znak po znaku ------------------------------------------
+
     for(size_t i = 0; i < strlen(retazec); i++){
         if(retazec[i] == '\n' || retazec[i] == '#'){ break; }
         printf("%c", retazec[i]);
@@ -101,20 +104,32 @@ void vypisPoZnakoch(char* retazec){
 }
 
 int pocetZaznamov(FILE* subor){
+
+//*----------------------------------------------------- Premenné -----------------------------------------------------
+    
     char riadok[VELKOST_BUFFERA];
     int dlzka = 0;
+    
+//*------------------------------------ Získanie počtu prázdnych riadkov v súbore -------------------------------------
+
     while(fgets(riadok, VELKOST_BUFFERA, subor)){
         if(strcmp(riadok, "\n") == 0){
             dlzka++;
         }
     }
     dlzka++;
-    fseek(subor, 0, SEEK_SET);
+    fseek(subor, 0, SEEK_SET); // Vracia ukazovateľ na začiatok čiastkového súboru.
     return dlzka; 
 }
 
 char** alokovat2D(int pocetRiadkov, int velkostRiadka){
+    
+//*----------------------------------------------------- Premenné -----------------------------------------------------
+    
     char** ptr = (char**) malloc(pocetRiadkov * sizeof(char*));
+
+//*-------------------------------------------------- Alokácia ---------------------------------------------------
+
     for(int i = 0; i < pocetRiadkov; i++){
         ptr[i] = (char *) calloc(velkostRiadka, sizeof(char));
     }
@@ -122,6 +137,9 @@ char** alokovat2D(int pocetRiadkov, int velkostRiadka){
 }
 
 void dealokovat2D(char** ptr, int velkost){
+
+//*------------------------------------------------- Dealokácia --------------------------------------------------
+
     for(int i = 0; i < velkost; i++){
         free(ptr[i]);
         ptr[i] = NULL;
@@ -549,6 +567,8 @@ void z(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typP
     }
 
     fgets(vstupNazov, VELKOST_BUFFERA, stdin);
+
+//*------------------------------------------------ Vymazávanie z polí ------------------------------------------------
 
     while(bZacat != -1){        
         for (size_t i = 0; i < *velkost; i++){
