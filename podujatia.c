@@ -26,7 +26,6 @@ void s(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPreze
 void h(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPrezentovania, int* casPrezentovania, int* datum);
 void z(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typPrezentovania, int** casPrezentovania, int** datum);
 void p(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typPrezentovania, int** casPrezentovania, int** datum);
-void vymenRetazce(char** destinacia, char** zdroj);
 
 int main(){
 
@@ -197,7 +196,7 @@ void v(FILE** subor, size_t* velkost, char** nazvyPodujati, char** menaAutorov, 
     if(!*subor){
         *subor = fopen("OrganizaciePodujatia.txt", "r");
         if(!*subor){
-            printf("Neotvoreny subor");
+            printf("Neotvoreny subor\n");
             return;
         }
     }
@@ -270,7 +269,7 @@ void o(FILE* subor, size_t velkost, char** nazvyPodujati, char** menaAutorov, ch
     scanf("%d", &vstupDatum);
 
     if(!subor){
-        printf("Neotvoreny subor");
+        printf("Neotvoreny subor\n");
         return;
     }
     
@@ -388,7 +387,7 @@ void n(FILE** subor, size_t* velkost, char*** nazvyPodujati, char*** menaAutorov
     if(!*subor){
         *subor = fopen("OrganizaciePodujatia.txt", "r");
         if(!*subor){
-            printf("Neotvoreny subor");
+            printf("Neotvoreny subor\n");
             return;
         }
     }
@@ -479,7 +478,7 @@ void h(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPreze
 //*-------------------------------------------------- Inicializácia ---------------------------------------------------
     
     if(!nazvyPodujati || !menaAutorov || !typPrezentovania || !casPrezentovania || !datum){
-        printf("Polia nie su vytvorene");
+        printf("Polia nie su vytvorene\n");
         return;
     }
 
@@ -621,7 +620,7 @@ void z(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typP
 //*-------------------------------------------------- Inicializácia ---------------------------------------------------
         
     if(!nazvyPodujati || !menaAutorov || !typPrezentovania || !casPrezentovania || !datum){
-        printf("Polia nie su vytvorene");
+        printf("Polia nie su vytvorene\n");
         return;
     }
 
@@ -672,7 +671,7 @@ void p(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typP
 //*-------------------------------------------------- Inicializácia ---------------------------------------------------
     
     if(!nazvyPodujati || !menaAutorov || !typPrezentovania || !casPrezentovania || !datum){
-        printf("Polia nie su vytvorene");
+        printf("Polia nie su vytvorene\n");
         return;
     }
 
@@ -701,5 +700,5 @@ void p(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typP
     (*casPrezentovania)[(*velkost)-1] = atoi(vstupCas);
     (*datum)[(*velkost)-1] = atoi(vstupDatum);
 
-    printf("Zaznam sa podarilo pridat.");
+    printf("Zaznam sa podarilo pridat.\n");
 }
