@@ -641,7 +641,7 @@ void z(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typP
 
 //*-------------------------------------------------- Inicializácia ---------------------------------------------------
         
-    if(!nazvyPodujati || !menaAutorov || !typPrezentovania || !casPrezentovania || !datum){
+    if(!(*nazvyPodujati) || !(*menaAutorov) || !(*typPrezentovania) || !(*casPrezentovania) || !(*datum)){
         printf("Polia nie su vytvorene\n");
         return;
     }
@@ -692,7 +692,7 @@ void p(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typP
 
 //*-------------------------------------------------- Inicializácia ---------------------------------------------------
     
-    if(!nazvyPodujati || !menaAutorov || !typPrezentovania || !casPrezentovania || !datum){
+    if(!(*nazvyPodujati) || !(*menaAutorov) || !(*typPrezentovania) || !(*casPrezentovania) || !(*datum)){
         printf("Polia nie su vytvorene\n");
         return;
     }
