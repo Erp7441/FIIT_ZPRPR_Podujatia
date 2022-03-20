@@ -324,6 +324,9 @@ void o(FILE* subor, size_t velkost, char** nazvyPodujati, char** menaAutorov, ch
         zoradPole(velkostPoli, &nazvy, &mena, &typy, &casy, &datumy);
         for(int i = 0; i < velkostPoli; i++){
             if(datumy[i] == vstupDatum && typy[i][0] == 'U'){
+                if(casy[i] < 1000){
+                    printf("0");
+                }
                 printf("%d\t", casy[i]);
                 vypisPoZnakoch(typy[i]);
                 printf("\t");
@@ -334,6 +337,9 @@ void o(FILE* subor, size_t velkost, char** nazvyPodujati, char** menaAutorov, ch
         printf("\n");
         for(int i = 0; i < velkostPoli; i++){
             if(datumy[i] == vstupDatum && typy[i][0] == 'P'){
+                if(casy[i] < 1000){
+                    printf("0");
+                }
                 printf("%d\t", casy[i]);
                 vypisPoZnakoch(typy[i]);
                 printf("\t");
@@ -357,6 +363,9 @@ void o(FILE* subor, size_t velkost, char** nazvyPodujati, char** menaAutorov, ch
         zoradPole(velkost, &nazvyPodujati, &menaAutorov, &typPrezentovania, &casPrezentovania, &datum);
         for(size_t i = 0; i < velkost; i++){
             if(datum[i] == vstupDatum && typPrezentovania[i][0] == 'U'){
+                if(casPrezentovania[i] < 1000){
+                    printf("0");
+                }
                 printf("%d\t", casPrezentovania[i]);
                 vypisPoZnakoch(typPrezentovania[i]);
                 printf("\t");
@@ -367,6 +376,9 @@ void o(FILE* subor, size_t velkost, char** nazvyPodujati, char** menaAutorov, ch
         printf("\n");
         for(size_t i = 0; i < velkost; i++){
             if(datum[i] == vstupDatum && typPrezentovania[i][0] == 'P'){
+                if(casPrezentovania[i] < 1000){
+                    printf("0");
+                }
                 printf("%d\t", casPrezentovania[i]);
                 vypisPoZnakoch(typPrezentovania[i]);
                 printf("\t");
