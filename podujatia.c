@@ -250,6 +250,9 @@ void v(FILE** subor, size_t* velkost, char** nazvyPodujati, char** menaAutorov, 
             printf("Typ prezentovania: ");
             printf("%s", typPrezentovania[i]);
             printf("Cas prezentovania: ");
+            if(casPrezentovania[i] < 1000){
+                printf("0");
+            }
             printf("%d\n", casPrezentovania[i]);
             printf("Datum: ");
             printf("%d\n\n", datum[i]);
@@ -464,6 +467,9 @@ void s(size_t velkost, char** nazvyPodujati, char** menaAutorov, char** typPreze
     for(size_t i = 0; i < velkost; i++){
         if(datum[i] == vstupDatum){
             if(strncmp(typPrezentovania[i], vstupTyp, 2) == 0) {
+                if(casPrezentovania[i] < 1000){
+                    printf("0");
+                }
                 printf("%d\t", casPrezentovania[i]);
                 vypisPoZnakoch(menaAutorov[i]);
                 printf("\t%s", nazvyPodujati[i]);
@@ -632,12 +638,9 @@ void z(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typP
 
 //*------------------------------------------------ Vymazávanie z polí ------------------------------------------------
 
+    // TODO nezmaze posledny zaznam
     while(bZacat != -1){        
         for (size_t i = 0; i < *velkost; i++){
-            if(i+1 == *velkost && bZacat == 0){
-                bZacat = -1;
-                break;
-            }
             if(strcmp((*nazvyPodujati)[i], vstupNazov) == 0){ bZacat = 1; }
             if(bZacat == 1 && i < *velkost - 1){
                 strcpy((*nazvyPodujati)[i], (*nazvyPodujati)[i + 1]);
@@ -645,6 +648,10 @@ void z(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typP
                 strcpy((*typPrezentovania)[i], (*typPrezentovania)[i + 1]);
                 (*casPrezentovania)[i] = (*casPrezentovania)[i + 1];
                 (*datum)[i] = (*datum)[i + 1];
+            }
+            if(i+1 == *velkost && bZacat == 0){
+                bZacat = -1;
+                break;
             }
         }
 
