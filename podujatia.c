@@ -638,7 +638,6 @@ void z(size_t* velkost, char*** nazvyPodujati, char*** menaAutorov, char*** typP
 
 //*------------------------------------------------ Vymazávanie z polí ------------------------------------------------
 
-    // TODO nezmaze posledny zaznam
     while(bZacat != -1){        
         for (size_t i = 0; i < *velkost; i++){
             if(strcmp((*nazvyPodujati)[i], vstupNazov) == 0){ bZacat = 1; }
